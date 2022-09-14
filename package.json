@@ -1,0 +1,19 @@
+{
+  "name": "stockserver",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  
+  "scripts": {
+    "start": "node server.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.3",
+    "express-async-await": "^1.1.0",
+    "express-async-errors": "^3.1.1",
+    "node-fetch": "^2.6.6",
+    "request": "^2.88.2"
+  }
+}
