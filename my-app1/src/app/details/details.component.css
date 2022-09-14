@@ -1,0 +1,57 @@
+#meta-ticker{
+    font-size: 40px;
+  }
+  
+  #desp-name, .change-latest {
+    font-size: 20px;
+  }
+  
+  #buy-button {
+    outline: none;
+    box-shadow: none;
+  }
+  
+  path.neg {
+    color: red;
+  }
+  
+  path.star-fill-icon {
+    color: rgb(255, 195, 0);
+  }
+  
+  path.pos {
+    color: green;
+  }
+  
+
+  .underscroe{
+    font-size:20px;
+  }
+  #upchange{
+    color:green;
+  }
+  #downchange{
+    color:red;
+  }
+
+  .card-title {
+    line-height: 20px; 
+    font-weight: 400;
+    font-size: 14px;
+  }
+
+  .textsize{
+    font-size: 20px;
+    font-weight: 500;
+  }
+  
+  button{
+    white-space: nowrap
+  }
+
+  .text-underline-hover {
+    text-decoration: none;
+}
+  .text-underline-hover:hover {
+    text-decoration: underline;
+}

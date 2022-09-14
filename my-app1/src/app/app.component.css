@@ -1,0 +1,9 @@
+.background{
+    background-size: cover;
+    min-height: 800px;
+    height: auto;
+    min-height: max-content;
+    position: relative;
+    opacity: 1;
+    color: black;
+}

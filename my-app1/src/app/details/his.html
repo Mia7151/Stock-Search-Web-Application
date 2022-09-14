@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+
+    <script src="https://code.highcharts.com/stock/highstock.js"></script>
+    <script src="https://code.highcharts.com/stock/modules/data.js"></script>
+    <script src="https://code.highcharts.com/stock/modules/exporting.js"></script>
+    <script src="https://code.highcharts.com/stock/modules/export-data.js"></script>
+
+
+
+
+
+
+    <script type="text/javascript">
+
+        
+
+        function show3(stock){
+        let xhr = new XMLHttpRequest();
+        let res;
+        let query = stock
+        //let query = "AAPL";
+        let to_unix = Math.floor(Date.now() / 1000);
+        let from_unix = to_unix - 6*60*60
+        //from_unix = 1631022248;
+        //to_unix = 1631043848;
+        let url = "https://homework88.wl.r.appspot.com/api/v1.0.0/histdata/" + query +"/" + from_unix +"/"+to_unix;
+
+
+
+
+        let url1 = "https://homework88.wl.r.appspot.com/api/v1.0.0/latestprice/" + query;
+        async function gethistchartapi(url1) {
+        // Storing response
+        const response = await fetch(url1);
+
+        // Storing data in form of JSON
+        data = await response.json();
+        change = data.d;
+        //document.getElementById('color').innerHTML = change
+    }
+
+    gethistchartapi(url1)
+
+
+
+        xhr.open('GET',url);
+        xhr.send()
+        xhr.onload = function(){
+
+            if (change > 0) {
+              dailyPriceColor = '#008000';
+            } else if (change < 0) {
+              dailyPriceColor = '#FF0000';
+            } else {
+              dailyPriceColor = '#000000';
+            }
+
+            if (xhr.status != 200) {
+                alert(`Error ${xhr.status}: ${xhr.statusText}`);
+            } else {
+               // alert(`Done, got ${xhr.response.length} bytes`);
+                res = JSON.parse(xhr.response);
+                var data = [];
+                for (i=0; i<res.t.length;i++){
+                    data.push([res.t[i]*1000, res.c[i]])
+                }
+
+
+                //for highchart
+                Highcharts.stockChart('container', {
+                    rangeSelector: {
+                        enabled: false,
+                    },
+
+                    navigator: {
+                        enabled: false,
+                    },
+
+                    title: {
+                        text: query + ' Hourly Price Variation'
+                    },
+                    
+                    
+                    
+                    series: [{
+                        name: query,
+                        data: data,
+                        color: dailyPriceColor,
+                        tooltip: {
+                            valueDecimals: 2
+                        }
+                    }]
+                    });
+
+            }
+        }
+
+
+        xhr.onprogress = function(event) {
+        if (event.lengthComputable) {
+            //alert(`Received ${event.loaded} of ${event.total} bytes`);
+        } else {
+            //alert(`Received ${event.loaded} bytes`); // no Content-Length
+        }};
+
+        xhr.onerror = function() {
+        alert("Request failed");
+        };}
+
+
+
+
+
+
+        show3("AAPL")
+
+    </script>
+
+
+
+
+</head>
+<body>
+<div id="container"></div>
+<h1 id = "color"></h1>
+
+</body>
+</html>

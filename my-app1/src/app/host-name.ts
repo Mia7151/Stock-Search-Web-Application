@@ -1,0 +1,1 @@
+export const HOST: string = 'http://0.0.0.0:4200'; // for local test

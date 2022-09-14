@@ -1,0 +1,56 @@
+.masthead{
+    background-size: cover;
+    height: 100vh;
+    position: relative;
+    opacity: 1;
+    color: black;
+    text-align: center;
+
+}
+
+.bi-search {
+    color: rgb(29, 30,138)
+}
+
+.bi-x-lg {
+    color: rgb(29, 30,138)
+    
+}
+
+h1{
+    font-size: 30px;
+    font-weight: 500;
+}
+
+#group-outer {
+    border: 2px solid rgb(29, 30,138);
+    height: 100%;
+}
+
+input[type="text"] {
+    outline: none;
+    box-shadow: none;
+    font-size: 13px;
+    height: 30px;
+    width: 100px;
+}
+
+form {
+    
+    height: 40px;
+}
+
+div button {
+    outline: none;
+    box-shadow: none;
+}
+
+.background{
+    background-size: cover;
+    min-height: 800px;
+    height: 100hv;
+    position: relative;
+    opacity: 1;
+    color: black;
+    
+}

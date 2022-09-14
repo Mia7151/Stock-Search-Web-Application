@@ -1,0 +1,15 @@
+.bi-x-lg{
+    color:grey
+}
+
+.background{
+    background-size: cover;
+    min-height: 800px;
+    height: 100hv;
+    position: relative;
+    opacity: 1;
+    color: black;
+    
+
+
+}

@@ -1,0 +1,58 @@
+<div class="background" style="background-image: linear-gradient(to bottom, rgba(255,255,255,0.6) 0%,rgba(255,255,255,0.9) 100%),url('../../assets/images/background-graph.jpg');">
+<div class="container my-0 p-0">
+    <h1 class = 'my-0 p-2 ml-5' style="font-weight: 500;font-size: 30px;">My Watchlist</h1>
+  </div>
+  <div class="container my-0 p-0">
+    <mat-spinner
+      *ngIf="!fetchFinish && !isEmpty"
+      class="mt-4 mx-auto"
+    ></mat-spinner>
+    <ngb-alert [dismissible]="false" *ngIf="isEmpty" class="text-center text-dark mx-3"
+      >Currently you don't have any stock in your watchlist.
+    </ngb-alert>
+    <div *ngIf="fetchFinish && !isEmpty">
+      <div
+        *ngFor="let tickerItem of tickerInfoArr "
+        class="card p-0 my-3 mx-2 border"
+        (close)="removeFromWatchlist(tickerItem)"
+      >
+      <div class="col text-right m-0 p-0">
+      <button type="button" class='button1 btn m-0 p-0 ' (click)="removeFromWatchlist(tickerItem);" >
+        <i class="bi bi-x-lg"></i>  
+      </button>
+    </div>
+        <div class="row mx-3 my-3" (click)="linkToDetails(tickerItem.ticker)">
+          <div class="col">
+            <h1 class="m-0 p-0 flex-row item-ticker">
+              {{tickerItem.ticker}}
+            </h1>
+            <h3 class="m-0 p-0 flex-row text-dark item-name">
+              {{tickerItem.name}}
+            </h3>
+          </div>
+          <div class="col mr-1">
+            <h1
+              class="m-0 p-0 flex-row last-price d-flex flex-row-reverse"
+              [class.text-danger]="tickerItem.change < 0"
+              [class.text-success]="tickerItem.change > 0"
+            >
+              {{ tickerItem.last | number: "1.0-2"}}
+            </h1>
+            <div
+              class="m-0 p-0 flex-row d-flex flex-row-reverse change"
+              [class.text-danger]="tickerItem.change < 0"
+              [class.text-success]="tickerItem.change > 0"
+            >
+              <p class="m-0 p-0">
+                <i *ngIf="tickerItem.change > 0" class="fa fa-caret-up"></i>
+                <i *ngIf="tickerItem.change < 0" class="fa fa-caret-down"></i>
+                {{ tickerItem.change |  number:'.2-2' }}({{
+                  tickerItem.changePercent |  number:'.2-2' }}%)
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

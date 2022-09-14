@@ -1,0 +1,142 @@
+<div class="background" style="background-image: linear-gradient(to bottom, rgba(255,255,255,0.6) 0%,rgba(255,255,255,0.9) 100%),url('../../assets/images/background-graph.jpg');">
+<!--transaction--> 
+<ngb-alert
+  *ngIf="buySuccessMessage"
+  type="success"
+  class="text-center my-2"
+  (close)="buySuccessMessage = ''"
+>{{  tickerinalert }} bought successfully!</ngb-alert>
+
+
+<ngb-alert
+  *ngIf="sellSuccessMessage"
+  type="danger"
+  class="text-center my-2"
+  (close)="sellSuccessMessage = ''"
+>{{  tickerinalert }} sold successfully!</ngb-alert>
+
+
+  <div class="container my-0 p-0">
+    <h1 class="portfolio-header mx-2 p-2">My Portfolio</h1>
+    <h2 class="d-inline ml-2 mr-0 ">Money in Wallet:&#160;$</h2>
+    <h2 class="d-inline ml-0 ">{{moneyinwallet | number: "1.0-2" }}</h2>   
+</div>
+  <div class="container my-0 p-0">
+    <!-- spinner area -->
+    <mat-spinner
+      *ngIf="!fetchFinish && !isEmpty"
+      class="mt-4 mx-auto"
+    ></mat-spinner>
+  
+    <!-- empty portfolio alert area -->
+    <ngb-alert
+      [dismissible]="false"
+      *ngIf="isEmpty"
+      class="text-center text-dark mx-3"
+      >Currently you don't have any stock.
+    </ngb-alert>
+  
+    <!-- purchased stock cards area -->
+    <div *ngIf="fetchFinish && !isEmpty">
+      <div *ngFor="let tickerItem of tickerInfoArr" class="card p-0 my-3 mx-2">
+        <div class="card-header py-0 px-3">
+          <div class="row p-2 d-flex align-items-end">
+            <h1 class="col m-0 p-0">{{ tickerItem.ticker}}&#160;<span class="h6 text-black-50">{{ tickerItem.name }}</span></h1>
+          </div>
+        </div>
+        <div class="card-body p-0">
+          <div class="card-text row m-0 my-2 px-0">
+            <!-- first column -->
+            <div class="col-sm p-0 m-0 mx-2">
+              <div class="row m-0 p-0">
+                <div class="col m-0 p-0">Quantity:</div>
+                <div class="col mr-3 p-0 text-right ">
+                  {{ tickerItem.quantity }}
+                </div>
+              </div>
+              <div class="row m-0 p-0">
+                <div class="col m-0 p-0">Avg. Cost/Share:</div>
+                <div class="col mr-3 p-0 text-right">
+                  {{ tickerItem.avgCost | number: "1.0-2" }}
+                </div>
+              </div>
+              <div class="row m-0 p-0">
+                <div class="col m-0 p-0">Total Cost:</div>
+                <div class="col mr-3 p-0 text-right">
+                  {{ tickerItem.totalCost | number: "1.0-2" }}
+                </div>
+              </div>
+            </div>
+            <!-- second column -->
+            <div class="col p-0 m-0 mx-2">
+              <!--change-->
+              <div class="row m-0 p-0">
+                <div class="col m-0 p-0">Change:</div>
+                <div
+                  class="col m-0 p-0 text-right font-weight-bold"
+                  [class.text-danger]="-tickerItem.change < 0"
+                  [class.text-success]="-tickerItem.change > 0"
+                >
+                <i *ngIf="-tickerItem.change > 0" class="fa fa-caret-up"></i>
+                <i *ngIf="-tickerItem.change < 0" class="fa fa-caret-down"></i>
+                  {{ -tickerItem.change | number: "1.0-2" }}
+                </div>
+              </div>
+              <!--current price-->
+              <div class="row m-0 p-0">
+                <div class="col m-0 p-0">Current Price:</div>
+                <div
+                  class="col m-0 p-0 text-right font-weight-bold"
+                  [class.text-danger]="-tickerItem.change < 0"
+                  [class.text-success]="-tickerItem.change > 0"
+                >
+                  {{ tickerItem.currentPrice | number: "1.0-2" }}
+                </div>
+              </div>
+              <!--market value-->
+              <div class="row m-0 p-0">
+                <div class="col m-0 p-0">Market Value:</div>
+                <div
+                  class="col m-0 p-0 text-right font-weight-bold"
+                  [class.text-danger]="-tickerItem.change < 0"
+                  [class.text-success]="-tickerItem.change > 0"
+                >
+                  {{ tickerItem.marketValue | number: "1.0-2" }}
+                </div>
+              </div>
+              <!--market value-->
+            </div>
+          </div>
+        </div>
+        <div class="card-footer py-1 d-flex justify-content-end">
+          <button
+            class="btn btn-primary mx-1 border-0"
+            (click)="
+              openTransectionButton(
+                tickerItem.ticker,
+                tickerItem.name,
+                tickerItem.currentPrice,
+                'Buy'
+              )
+            "
+          >
+            Buy
+          </button>
+          <button
+            class="btn btn-primary mx-1 bg-danger border-0"
+            (click)="
+              openTransectionButton(
+                tickerItem.ticker,
+                tickerItem.name,
+                tickerItem.currentPrice,
+                'Sell'
+              )
+            "
+          >
+            Sell
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  </div>

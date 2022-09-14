@@ -1,0 +1,59 @@
+<div class="background" style="background-image: linear-gradient(to bottom, rgba(255,255,255,0.6) 0%,rgba(255,255,255,0.9) 100%),url('../../assets/images/background-graph.jpg');">
+    
+
+<div >
+    <div class='col-sm text-center' id = 'header-text'>
+        <h1 style="padding-top: 30px;">STOCK SEARCH</h1>
+    </div>
+    <form  class="mx-auto d-flex justify-content-center "
+           [formGroup]="searchForm"
+           (ngSubmit)="onSubmit(searchForm.value)" >
+        <div class = "row col-md-4 d-flex justify-content-center align-items-center" >
+            <div class='input-group align-baseline rounded rounded-pill' id="group-outer">
+            <input
+                type="text"
+                formControlName="tickerInput" 
+                placeholder="Enter stock ticker symbol"
+                aria-describedby="button-addon1"
+                class="form-control border-0 m-0 p-0"
+                [matAutocomplete]="auto"
+                />
+                <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
+                    <mat-option *ngIf="isLoading" class="is-loading"><mat-spinner diameter="50"></mat-spinner></mat-option>
+                    <ng-container *ngIf="!isLoading">
+                      <mat-option *ngFor="let company of filteredCompanies" [value]="company">
+                        <span>{{ company.symbol }}</span>
+                        <small> | {{company.description}}</small>
+                      </mat-option>
+                    </ng-container>
+                </mat-autocomplete>
+                
+            <div class='input-group-append mx-2 border-0 p-0'>
+                <button id='button-addon1' type="submit" class='btn btn-link text-primary m-0 border-0 p-0' >
+                    <i class="bi bi-search"></i>
+                </button>
+                <button id='button-addon1' type="reset" class='btn btn-link text-primary m-0 border-0 p-0' (click)="router.navigate(['/']);" >
+                    <i class="bi bi-x-lg" style="margin-left: 10px;"></i>  
+                </button>
+            </div>
+        </div>
+        </div>
+    </form>
+</div>
+
+<ngb-alert
+  *ngIf="noinputMessage"
+  type="danger"
+  class="text-center my-2"
+  (close)="noinputMessage = ''">
+  Please enter a valid ticker</ngb-alert>
+
+  <div *ngIf="valid" class="container mt-5">
+    <div class="alert alert-danger text-center text-dark" role="alert">
+      No data found. Please enter valid Ticker
+    </div>
+  </div>
+  
+<router-outlet></router-outlet>
+
+</div>

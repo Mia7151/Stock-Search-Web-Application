@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="https://code.highcharts.com/modules/exporting.js"></script>
+    <script src="https://code.highcharts.com/modules/export-data.js"></script>
+    <script src="https://code.highcharts.com/modules/accessibility.js"></script>
+
+
+
+    <script type="text/javascript">
+
+        function show1(stock){
+        let xhr = new XMLHttpRequest();
+        let companyearnings;
+        let res1;
+        let query = stock
+        //let query = "AAPL";
+        let url = "https://homework88.wl.r.appspot.com/api/v1.0.0/companyearningsdata/" + query;
+        xhr.open('GET',url);
+        xhr.send()
+        xhr.onload = function(){
+            if (xhr.status != 200) {
+                alert(`Error ${xhr.status}: ${xhr.statusText}`);
+            } else {
+               // alert(`Done, got ${xhr.response.length} bytes`);
+               companyearnings = JSON.parse(xhr.response);
+
+                //for highchart
+                let actual = [],estimate = []
+                let l = companyearnings.length
+                let x = [],x1
+                for (var i=0; i<l; i++){
+                actual.push([companyearnings[i].period,companyearnings[i].actual])
+                estimate.push([companyearnings[i].period,companyearnings[i].estimate])
+                x1 = companyearnings[i].period +"<br>"+"Suprise: " + companyearnings[i].surprise
+                x.push(x1)
+                }
+                let d = [1,2,3,4]
+
+
+                Highcharts.chart('container', {
+                    chart: {
+                    type: 'spline',
+                    inverted: false,
+                    events: {
+      load() {
+        const chart = this
+        const series = chart.series
+
+        series.forEach((s) => {
+          const len = s.data.length
+          const point = s.data[len - 1]
+          console.log(point)
+
+          chart.renderer.text(
+          	point.series.name,
+            point.plotX + chart.plotLeft + 10,
+            point.plotY + chart.plotTop - 10
+          )
+          .attr({
+          	fill: s.color,
+            zIndex: 5
+          })
+          .add()
+        })
+      }
+    }
+                    
+                },
+                title: {
+                    text: 'Historical EPS Surprises'
+                },
+
+    xAxis: {
+        reversed: false,
+        title: {
+            //enabled: true,
+            text: ''
+        },
+        labels: {
+            format: ''
+        },
+        categories: x
+      ,
+
+        maxPadding: 0.05,
+        showLastLabel: true
+    },
+
+    yAxis: {
+        title: {
+            text: 'Quarterly EPS'
+        },
+        labels: {
+            format: '{value}'
+        },
+
+        lineWidth: 0
+    },
+    legend: {
+        enabled: true,
+        borderColor: '#95b8f0',
+        borderWidth: 0,
+    },
+    tooltip: {
+        shared: true
+    },
+    plotOptions: {
+        spline: {
+            marker: {
+                enabled: true,
+                lineWidth: 2,
+                lineColor: 'blue'
+                
+            }
+        },
+        series: {
+            dataLabels: {
+            enabled: false,
+            crop: false,
+            overflow: 'none',
+            align: 'left',
+            verticalAlign: 'middle',
+            formatter: function() {
+                
+                return '<span style="color:'+this.series.color+'">'+this.series.name+'</span>';
+            }
+            }
+        }
+    },
+    series: [{
+        name: 'Actual',
+        type:undefined,
+        data: actual,
+        
+        
+    },{
+        name: 'Estimate',
+        type:undefined ,
+        data: estimate,
+    
+        
+
+    }]
+    }
+
+                )
+
+        }}
+
+
+        xhr.onprogress = function(event) {
+        if (event.lengthComputable) {
+            //alert(`Received ${event.loaded} of ${event.total} bytes`);
+        } else {
+            //alert(`Received ${event.loaded} bytes`); // no Content-Length
+        }};
+
+        xhr.onerror = function() {
+        alert("Request failed");
+        };}
+
+
+
+
+
+        show1("AAPL")
+
+
+    </script>
+
+
+
+
+</head>
+<body>
+<div id="container" ></div>
+</body>
+</html>

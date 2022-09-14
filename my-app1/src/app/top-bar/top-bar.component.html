@@ -1,0 +1,21 @@
+
+    <nav class="navbar navbar-expand-sm navbar-dark sticky-top" style = "background-color: #2824ac">
+        <span class="navbar-brand" style = "color: white">Stock Search</span>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#content" 
+            aria-controls="content" aria-expanded="false" aria-label="Toggle" > 
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse justify-content-end" id="content" style = "text-align: right;">
+            <ul class="navbar-nav ms-auto" >
+                <li><a class="nav-link px-4"  [routerLink]="['/search',tickerStored1]"   routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="reloadnew()">Search</a ></li>
+                <li><a class="nav-link px-4" [routerLink]="['/','watchlist']" routerLinkActive="active" >Watchlist</a ></li>
+                <li><a class="nav-link px-4" [routerLink]="['/','portfolio']" routerLinkActive="active" >Portfolio</a ></li>
+            </ul>
+        </div>
+    </nav>
+
+
+
+
+
+
